@@ -30,4 +30,19 @@ func main() {
 	for key, val := range m {
 		fmt.Printf("%s => %s \n", key, val)
 	}
+
+	myMap := make(map[string]map[string]string)
+
+	// 初始化并赋值
+	myMap["user1"] = make(map[string]string)
+	myMap["user1"]["name"] = "Alice"
+	myMap["user1"]["age"] = "30"
+
+	myMap["user2"] = make(map[string]string)
+	myMap["user2"]["name"] = "Bob"
+	myMap["user2"]["age"] = "25"
+
+	// 打印 map
+	fmt.Println(myMap)
+
 }

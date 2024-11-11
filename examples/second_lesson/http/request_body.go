@@ -63,7 +63,7 @@ func form(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Fprintf(w, "parse form error %v\n", r.Form)
 	}
-	fmt.Fprintf(w, "ater parse form %v\n", r.Form)
+	fmt.Fprintf(w, "after parse form %v\n", r.Form)
 }
 
 func main() {

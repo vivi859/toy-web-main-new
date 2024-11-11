@@ -1,4 +1,4 @@
-package main
+package context
 
 import (
 	"encoding/json"
@@ -16,19 +16,20 @@ type Context struct {
 
 func (c *Context) ReadJson(v interface{}) error {
 	//读body处理
-	r := c.R
-	body, err := io.ReadAll(r.Body)
+	body, err := io.ReadAll(c.R.Body)
 	if err != nil {
-		fmt.Fprintf(w, "read body failed: %v", err)
+		fmt.Fprintf(c.W, "read body failed: %v", err)
 		// 记住要返回，不然就还会执行后面的代码
 		return err
 	}
 	err = json.Unmarshal(body, v)
-	// 尝试再次读取，啥也读不到，但是也不会报错
-	//body, err = io.ReadAll(r.Body)
 	if err != nil {
-		// 不会进来这里
 		//fmt.Fprintf(w, "read the data one more time got error: %v", err)
+		c.W.WriteHeader(http.StatusBadRequest) // 使用标准库的 http.StatusBadRequest 常量
+		fmt.Fprintf(c.W, "Invalid JSON format: %v", err)
+		// 打印错误详细信息到控制台
+		fmt.Printf("Error in JSON unmarshalling: %v\n", err)
+		fmt.Printf("Request body content: %s\n", string(body))
 		return err
 	}
 	//这里不需要return req ?
@@ -47,6 +48,9 @@ func (c *Context) WriteJson(code int, resp interface{}) error {
 	return err
 }
 
-func (c *Context) OkJson(resp interface{}) error {
+func (c *Context) StatusOkJson(resp interface{}) error {
 	return c.WriteJson(http.StatusOK, resp)
+}
+func (c *Context) BadrequestJson(resp interface{}) error {
+	return c.WriteJson(http.StatusBadRequest, resp)
 }

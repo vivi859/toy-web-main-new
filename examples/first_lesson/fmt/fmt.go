@@ -23,6 +23,8 @@ func main() {
 	VariablesConsta(&src)
 	//func
 	fmt.Printf("func_testing\n")
+	//aa := fmt.Fprintf(aa, "fprintffprintffprintffprintffprintf \n")
+	//fmt.Println(aa)
 	Function()
 	Defer()
 }
